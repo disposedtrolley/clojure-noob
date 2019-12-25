@@ -306,3 +306,40 @@
   #(+ % inc-by))
 
 (def inc3 (inc-maker 3))
+
+
+
+;; // ======================
+;; Let
+;; Binds names to values. The value of a let form is the last form in the body
+;; that's evaluated.
+;; Useful because:
+;;   1) they provide clarity through names
+;;   2) they allow you to evaluate an expression and reuse the result
+;;        - good for expensive operations like network requests
+(let [x 3] x)  ;; x is the last form which evaluates to 3.
+
+(def dalmatian-list
+  ["Pongo" "Perdita" "Puppy 1" "Puppy 2"])
+(let [dalmatians (take 2 dalmatian-list)]
+  dalmatians)
+
+;; let also introduces a new scope.
+(def x 0)
+(let [x 1] x)
+;; but you can reference existing bindings too:
+(def x 0)
+(let [x (inc x)] x)  ;; (inc x) refers to the x declared in (def x 0)
+;; and use rest parameters:
+(let [[pongo & dalmatians] dalmatian-list]
+  [pongo dalmatians])
+
+
+
+;; // ======================
+;; Loop
+(loop [iteration 0]
+  (println (str "Iteration " iteration))
+  (if (> iteration 3)
+    (println "Goodbye!")
+    (recur (inc iteration))))
