@@ -1,4 +1,4 @@
-(ns clojure-noob.exercises-1)
+(ns clojure-noob.ch3)
 
 ;; 1. Use the str, vector, list, hash-map, and hash-set functions.
 (str [1 2 3 4])
@@ -30,6 +30,10 @@
 (def dec9 (dec-maker 9))
 (dec9 10)
 
+(defn dec-maker-long
+  [dec-by]
+  (fn [num]
+    (- num dec-by)))
 
 ;; 4. Write a function, mapset, that works like map except the return value
 ;; is a set:
@@ -87,5 +91,4 @@
   [body-parts total]
   (reduce (fn [final-body-parts part]
             (into final-body-parts (set (flatten [part (matching-parts part total)]))))
-          []
-          body-parts))
+          []))

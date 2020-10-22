@@ -1,4 +1,4 @@
-(ns clojure-noob.core
+(ns clojure-noob.ch3
   (:gen-class))
 
 (defn -main

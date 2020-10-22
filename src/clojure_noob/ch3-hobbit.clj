@@ -1,4 +1,4 @@
-(ns clojure-noob.hobbit)
+(ns clojure-noob.ch3)
 
 ;; // ======================
 ;; The Shire's Next Top Model
