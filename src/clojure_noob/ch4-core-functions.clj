@@ -197,6 +197,51 @@
 
 (take 3 (repeatedly (fn [] (rand-int 10))))
 
-(defn even-numbers
-  ([] (even-numbers 0))
-  ([n] (cons n (lazy-seq (even-numbers (+ n 2))))))
+;; # Function Functions
+;;
+;; ## `apply`
+;; - Takes a function and collection of values, exploding the collection
+;;   so elements are passed as individual arguments to the function.
+
+(apply max [0 1 2]) ;; same as (max 0 1 2)
+
+(defn my-into
+  [target additions]
+  (apply conj target additions))
+
+(apply println [0 1 2])
+
+;; ## `partial`
+;; - Takes a function and unlimited number of arguments, returning a function
+;;   that can be called as if it were the original function with original
+;;   arguments, plus any new arguments supplied.
+
+(def add10 (partial + 10))
+(add10 3)
+(add10 5)
+
+(def add-missing-elements
+  (partial conj ["water" "earth" "air"]))
+
+(add-missing-elements "unobtainium", "admantium")
+
+(defn my-partial
+  [partialised-fn & args]
+  (fn [& more-args]
+    (apply partialised-fn (into args more-args))))
+
+(def add20 (my-partial + 20))
+(add20 3)
+
+;; - Use partials when you need to repeat the same combination of function
+;;   and arguments in different contexts, e.g. a specialised logger:
+
+(defn lousy-logger
+  [log-level message]
+  (condp = log-level
+    :warn (clojure.string/lower-case message)
+    :emergency (clojure.string/upper-case message)))
+
+(def warn (partial lousy-logger :warn))
+
+(warn "Red light ahead")
