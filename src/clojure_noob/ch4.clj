@@ -170,7 +170,7 @@
 
 (defn vampire-related-details
   [social-security-number]
-  (Thread/sleep 1000)
+  ;;(Thread/sleep 1000)
   (get vampire-database social-security-number))
 
 (defn vampire?
@@ -245,3 +245,16 @@
 (def warn (partial lousy-logger :warn))
 
 (warn "Red light ahead")
+
+;; ## `complement`
+;; - Returns a function which mirrors the supplied function (side effects and all),
+;;   but returns the inverse of what the original would have.
+
+(def should-be-true (complement false))
+(= true should-be-true)
+
+(def not-vampire? (complement vampire?))
+(defn identify-humans
+  [social-security-numbers]
+  (filter not-vampire?
+          (map vampire-related-details social-security-numbers)))
