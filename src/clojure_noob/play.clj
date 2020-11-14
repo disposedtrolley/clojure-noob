@@ -1,9 +1,9 @@
 (ns clojure-noob.play)
 
-;; (defn spread
-;;   ([x] x)
-;;   ([x y] (- (max x y) (min x y)))
-;;   ([x y z] (- (max x y z) (min x y z))))
+(defn spread
+  ([x] x)
+  ([x y] (- (max x y) (min x y)))
+  ([x y z] (- (max x y z) (min x y z))))
 
 (defn spread [& nums]
   (- (apply max nums) (apply min nums)))
@@ -37,25 +37,25 @@
       :else
       "Positive")
 
+(defn good-enough? [guess x]
+  (< (abs (- (square guess) x)) 0.001))
 
-(defn sqrt-iter [guess x]
-  (if (good-enough? guess x)
-    guess
-    (sqrt-iter (improve guess x) x)))
+(defn improve [guess x]
+  (average guess (/ x guess)))
 
 (defn sqrt-iter [guess x]
   (new-if (good-enough? guess x)
     guess
     (sqrt-iter (improve guess x) x)))
 
-(defn improve [guess x]
-  (average guess (/ x guess)))
+(defn sqrt-iter [guess x]
+  (if (good-enough? guess x)
+    guess
+    (sqrt-iter (improve guess x) x)))
 
 (defn average [x y]
   (/ (+ x y) 2))
 
-(defn good-enough? [guess x]
-  (< (abs (- (square guess) x)) 0.001))
 
 (defn square [x]
   (* x x))
@@ -73,3 +73,5 @@
         else-clause))
 
 (new-if (= 2 3) 0 5)
+
+(def text (slurp "http://www.clearwhitelight.org/hitch/hhgttg.txt"))
